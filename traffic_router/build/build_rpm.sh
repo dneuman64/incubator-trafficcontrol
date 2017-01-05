@@ -51,13 +51,13 @@ function installDnsSec {
 
 #----------------------------------------
 function buildRpmTrafficRouter () {
-	echo "Building the rpm."
+	echo "Building the rpm with Neustar."
 
 	installDnsSec
 
 	cd "$TR_DIR" || { echo "Could not cd to $TR_DIR: $?"; exit 1; }
 	export BUILD_NUMBER=${BUILD_NUMBER:-$(getBuildNumber)}
-	mvn -P rpm-build -Dmaven.test.skip=true -DminimumTPS=1 clean package ||  \
+	mvn -P rpm-build -p neustar -Dmaven.test.skip=true -DminimumTPS=1 clean package ||  \
 		{ echo "RPM BUILD FAILED: $?"; exit 1; }
 
 	local rpm=$(find -name \*.rpm)
