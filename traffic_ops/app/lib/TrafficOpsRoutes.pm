@@ -151,6 +151,15 @@ sub ui_routes {
 	$r->get('/ds/:id/sslkeys/add')->to( 'SslKeys#add', namespace => $namespace );
 	$r->post('/ds/sslkeys/create')->over( authenticated => 1 )->to( 'SslKeys#create', namespace => $namespace );
 
+	# # -- Lua Config management
+	# $r->get('/ds/:id/luaconfig/add')->to( 'LuaConfig#add', namespace => $namespace );
+	# $r->post('/ds/luaconfig/create')->over( authenticated => 1 )->to( 'LuaConfig#create', namespace => $namespace );
+	$r->get('luaconfig')->to( 'LuaConfig#index', namespace => $namespace );
+	$r->get('luaconfig/add')->to( 'LuaConfig#add', namespace => $namespace );
+	$r->post('luaconfig/create')->to( 'LuaConfig#create', namespace => $namespace );
+	$r->get('luaconfig/:id/edit')->to( 'LuaConfig#edit', namespace => $namespace );
+	$r->post('luaconfig/:id/update')->to( 'LuaConfig#update', namespace => $namespace );
+
 	# -- Keys - SSL Key management
 	$r->get('/ds/:id/urlsigkeys/add')->to( 'UrlSigKeys#add', namespace => $namespace );
 

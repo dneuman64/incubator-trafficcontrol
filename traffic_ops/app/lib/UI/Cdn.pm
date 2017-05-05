@@ -432,6 +432,16 @@ sub aasn {
     $self->render( json => \%data );
 }
 
+sub alua_config {
+    my $self = shift;
+    my %data = ( "aaData" => [] );
+    push( @{ $data{'aaData'} },
+        [1, "custom response", "https://trafficops.kabletown.net/customresponse.lua"],
+        [2, "set host", "https://trafficops.kabletown.net/sethost.lua"]
+         );
+    $self->render( json => \%data );
+}
+
 sub aphys_location {
     my $self = shift;
     my %data = ( "aaData" => [] );
@@ -770,6 +780,9 @@ sub aadata {
     }
     elsif ( $table eq 'Asn' ) {
         &aasn($self);
+    }
+    elsif ( $table eq 'LuaConfig' ) {
+        &alua_config($self);
     }
     elsif ( $table eq 'Deliveryservice' ) {
         &adeliveryservice($self);
