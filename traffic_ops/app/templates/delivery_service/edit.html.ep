@@ -149,6 +149,10 @@
 		$.fancybox({ type: 'iframe', href: "/ds/<%= $ds->id %>/sslkeys/add", padding: 0, autosize: true, fitToView: true, width: 750, minHeight: 800, modal:true, helpers: {overlay:{locked:true}}});
 	}
 
+        function openLuaConfig() {
+        $.fancybox({ type: 'iframe', href: "/ds/<%= $ds->id %>/luaconfig", padding: 0, autosize: true, fitToView: true, width: 700, minHeight: 500, modal:true});
+    }
+
 	var re_row_num = Object;
 	var row = 0;
 	$(function(){
@@ -414,6 +418,17 @@ function setup_form(speed) {
         }
     }
 
+     function show_mng_lc_button(speed) {
+        var lc_selected = $('#lua_config :selected').text();
+
+        if (lc_selected.match(/^Yes/)) {
+            $('#lc_button').show(speed);
+        }
+        else {
+            $('#lc_button').hide(speed);
+        }
+    }
+
 	// hide/show 'Generate URL Sig Keys'
 	 function show_gen_url_sigs_button(speed) {
       var signed_selected = $('#ds-signed :selected').text();
@@ -549,6 +564,7 @@ function setup_form(speed) {
 					<% } %>
 <% } %>
 				<button class="button" style="float:left;margin-left:5px; " onclick="openSteering()" id="steering_button">Manage Steering Assignments</button>
+                <button class="button" style="float:left;margin-left:5px; " onclick="openLuaConfig()" id="lc_button">Manage Lua Configs</button>
 				<button id="close_button" class="button" style="float:left; margin-left: 300px">Close</button>
 			     </div>
 			 </div>

@@ -1,0 +1,93 @@
+<!--
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+<!DOCTYPE html>
+
+<style>
+#ro_col { background-color: silver; font-color: black;}
+
+</style>
+<!-- <script>
+</script> -->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title><%= title %></title>
+	<link type="text/css" href="/css/site.css" rel="stylesheet" />
+	<script type="text/javascript" src="/js/application.js"></script>
+</head>
+<body>
+	<div id="accordion">
+		<div class="dialog_body" style="margin-left:10px; height: 600px;">
+			<h3><a href="#">Configure Lua Configs</a></h3>
+			<div style="border: none; text-align:left; height: auto; width: 100%;">
+				%= include 'common/_errors'
+				%= include 'common/_flash'
+			</div>
+			<div style="width: 100%; display: inline-block; position: relative; float: left;">
+				<div style="height: 260px">
+					<form method="post" action="/ds/<%= $xml_id %>/luaconfig">
+						<!-- <div class="main"> -->
+						<div>
+						<h2>Choose a lua config for <%= $xml_id %>:</h2>
+						<select name="config_data.name">
+						<% if (defined($selected_config->{name})) { %>
+							<option id="name" value="<%= $selected_config->{name} %>"><%= $selected_config->{name} %></option>
+						<% } else { %>
+							<option id="name" value="default">Choose config file</option>
+						<% } %>
+						% foreach my $config_data ( @{ $configs } ) {
+						<option id="name" value="<%= $config_data->{name} %>"><%= $config_data->{name} %></option>
+						% }
+						</select>
+						<!-- </div> -->
+						<div style="margin-left: 10px; margin-right: 100px; display: inline-block; float: right;">
+							<button class="button" id="submit_button">Select Config</button>
+					</form>
+						</div>
+						</div> <br>
+
+					<form method="post" action="/luaconfig/<%= $xml_id %>/configds">
+						<div>
+							<h2>Enter Variable Input:</h2>
+							<table width="90%" cellpadding="5" style="text-align: center">
+							<tr>
+							<th><strong>Name</strong></th>
+							<th><strong>Type</strong></th>
+							<th><strong>Validation Regex</strong></th>
+							<th><strong>Value</strong></th>
+							</tr>
+							% foreach my $var ( @{ $selected_config->{vars} } ) {
+							<tr id="var_table">
+								<td><input type="text" id="ro_col" name="var.config_name<%= $var->{id} %>" disabled value = "<%= $var->{config_name} %>"></td>
+								<td><input type="text" id="ro_col" name="var.config_type<%= $var->{id} %>"  disabled value = "<%= $var->{config_type} %>"></td>
+								<td><input type="text" id="ro_col" name="var.config_regex<%= $var->{id} %>" disabled value = "<%= $var->{config_regex} %>"></td>
+								<td><input type="text" name="var.value" id="var.config_value<%= $var->{id} %>"></td>
+							</tr>
+							<% } %>
+							</table>
+						</div>
+					<!-- </div> -->
+						<div style="margin-top: 50px; margin-left: 10px; position: relative; display: inline-block; float: left;">
+							<button class="button" id="submit_button">Save</button>
+					</form>
+						</div>
+						<div style="margin-top: 50px; float:right; margin-right: 110px">
+							<button class="button" id="close_button">Close</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
