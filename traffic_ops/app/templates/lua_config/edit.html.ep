@@ -29,11 +29,15 @@
 			<h3><a href="#">Lua Config</a></h3>
 			<div style="border: none; text-align:left; height: auto; width: 100%;">
 				%= include 'common/_errors'
-				%= include 'common/_flash'
+				<% if ($message ne "") { %>
+					<div id="flash" class="flash-section">
+						<%= $message %>
+					</div>
+				<% } %>
 			</div>
 			<div style="width: 100%; display: inline-block; position: relative; float: left;">
 				<div style="height: 260px">
-					<form method="post" action="/luaconfig/<%= $id %>/update">
+					<form method="post" action="/luaconfig/<%= $id %>/edit">
 						<div class="main">
 							<h2> Lua Config File Info:</h2>
 							<div class="block">
@@ -60,16 +64,16 @@
 								</tr>
 								% foreach my $var ( @{ $config_data->{vars} } ) {
 								<tr>
-									<td><input type="text" name="var.config_name" value = "<%=$var->{config_name}%>"></td>
+									<td><input type="text" name="var.config_name<%= $var->{id} %>" value = "<%=$var->{config_name}%>"></td>
 									<td>
-										<select name="var_type">
+										<select name="var_type<%= $var->{id} %>">
 											<option value="<%= $var->{config_type} %>" selected><%= $var->{config_type} %></option>
 											<option value="string">string</option>
 											<option value="int">int</option>
 											<option value="boolean">boolean</option>
 											<option value="float">float</option>
 										</select>
-									<td><input type="text" name="var.config_regex" value = "<%= $var->{config_regex} %>"></td>
+									<td><input type="text" name="var.config_regex<%= $var->{id} %>" value = "<%= $var->{config_regex} %>"></td>
 								</tr>
 								% }
 								</table>

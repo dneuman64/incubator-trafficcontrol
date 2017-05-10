@@ -156,7 +156,7 @@ sub ui_routes {
 	$r->get('/luaconfig/add')->to( 'LuaConfig#add', namespace => $namespace );
 	$r->post('/luaconfig/create')->over( authenticated => 1 )->to( 'LuaConfig#create', namespace => $namespace );
 	$r->get('/luaconfig/:id/edit')->to( 'LuaConfig#edit', namespace => $namespace );
-	$r->post('/luaconfig/:id/update')->over( authenticated => 1 )->to( 'LuaConfig#update', namespace => $namespace );
+	$r->post('/luaconfig/:id/edit')->over( authenticated => 1 )->to( 'LuaConfig#edit', namespace => $namespace );
 	$r->get('/ds/:id/luaconfig')->to( 'LuaConfig#assign', namespace => $namespace );
 	$r->post('/ds/:id/luaconfig')->over( authenticated => 1 )->to( 'LuaConfig#assign', namespace => $namespace );
 	$r->post('/luaconfig/:id/configds')->over( authenticated => 1 )->to( 'LuaConfig#configds', namespace => $namespace );

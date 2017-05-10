@@ -62,13 +62,42 @@ sub index {
 sub edit {
 	my $self = shift;
 	my $id   = $self->param('id');
-	if ($id == 1) {
-		$self->stash( config_data    => $config1 );
-	} elsif ($id == 2) {
-		$self->stash( config_data    => $config1 );
-	}
-	else {
-		$self->stash( config_data    => $custom_config );
+	my $name = $self->param('config_data.name');
+	if (defined($name)) { #post
+		print($self->req->body_params . "\n\n");
+		if ($id == 1) {
+			$config1->{name} = $self->param('config_data.name');
+			$config1->{url} = $self->param('config_data.url');
+			$config1->{vars}[0]->{config_name} = $self->param('var.config_name1');
+			$config1->{vars}[0]->{config_type} = $self->param('var.config_type1');
+			$config1->{vars}[0]->{config_regex} = $self->param('var.config_regex1');
+			$config1->{vars}[1]->{config_name} = $self->param('var.config_name2');
+			$config1->{vars}[1]->{config_type} = $self->param('var.config_type2');
+			$config1->{vars}[1]->{config_regex} = $self->param('var.config_regex2');
+
+			$self->stash( config_data    => $config1 );
+		} elsif ($id == 2) {
+			$config2->{name} = $self->param('config_data.name');
+			$config2->{url} = $self->param('config_data.url');
+			$config2->{vars}[0]->{config_name} = $self->param('var.config_name1');
+			$config2->{vars}[0]->{config_type} = $self->param('var.config_type1');
+			$config2->{vars}[0]->{config_regex} = $self->param('var.config_regex1');
+
+			$self->stash( config_data    => $config2 );
+		}
+
+		$self->stash(message => "Successfully updated config!");
+
+	} else {
+		$self->stash(message => "");
+		if ($id == 1) {
+			$self->stash( config_data    => $config1 );
+		} elsif ($id == 2) {
+			$self->stash( config_data    => $config1 );
+		}
+		else {
+			$self->stash( config_data    => $custom_config );
+		}
 	}
 
 	$self->stash( fbox_layout => 1 );
