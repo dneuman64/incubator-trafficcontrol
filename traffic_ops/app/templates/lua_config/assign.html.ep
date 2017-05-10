@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 
 <style>
-#ro_col { background-color: silver; font-color: black;}
+#var.name, #var.config_type, #var.config_regex { background-color: silver; font-color: black;}
 
 </style>
 <!-- <script>
@@ -32,7 +32,11 @@
 			<h3><a href="#">Configure Lua Configs</a></h3>
 			<div style="border: none; text-align:left; height: auto; width: 100%;">
 				%= include 'common/_errors'
-				%= include 'common/_flash'
+				<% if ($message ne "") { %>
+					<div id="flash" class="flash-section">
+						<%= $message %>
+					</div>
+				<% } %>
 			</div>
 			<div style="width: 100%; display: inline-block; position: relative; float: left;">
 				<div style="height: 260px">
@@ -47,7 +51,7 @@
 							<option id="name" value="default">Choose config file</option>
 						<% } %>
 						% foreach my $config_data ( @{ $configs } ) {
-						<option id="name" value="<%= $config_data->{name} %>"><%= $config_data->{name} %></option>
+						<option id="name" value="<%= $config_data->{name} %>"> <%= $config_data->{name} %> </option>
 						% }
 						</select>
 						<!-- </div> -->
@@ -69,13 +73,14 @@
 							</tr>
 							% foreach my $var ( @{ $selected_config->{vars} } ) {
 							<tr id="var_table">
-								<td><input type="text" id="ro_col" name="var.config_name<%= $var->{id} %>" disabled value = "<%= $var->{config_name} %>"></td>
-								<td><input type="text" id="ro_col" name="var.config_type<%= $var->{id} %>"  disabled value = "<%= $var->{config_type} %>"></td>
-								<td><input type="text" id="ro_col" name="var.config_regex<%= $var->{id} %>" disabled value = "<%= $var->{config_regex} %>"></td>
-								<td><input type="text" name="var.value" id="var.config_value<%= $var->{id} %>"></td>
+								<td><input type="text" id="var.name" name="var.config_name<%= $var->{id} %>" value = "<%= $var->{config_name} %>" readonly></td>
+								<td><input type="text" id="var.config_type" name="var.config_type<%= $var->{id} %>"  value = "<%= $var->{config_type} %>" readonly></td>
+								<td><input type="text" id="var.config_regex" name="var.config_regex<%= $var->{id} %>" value = "<%= $var->{config_regex} %>" readonly></td>
+								<td><input type="text" name="var.value<%= $var->{id} %>" id="var.config_value<%= $var->{id} %>" value = "<%= $var->{value} %>"></td>
 							</tr>
 							<% } %>
 							</table>
+							<input type="text" name="config_data.name" id="config_data.name" value = "<%= $selected_config->{name} %>" hidden />
 						</div>
 					<!-- </div> -->
 						<div style="margin-top: 50px; margin-left: 10px; position: relative; display: inline-block; float: left;">

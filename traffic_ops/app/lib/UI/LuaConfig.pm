@@ -49,7 +49,7 @@ my $config2 = {
 				id => 1,
 				config_name => "hostname",
 				config_type => "string",
-				config_validation => "[A-Za-z -]"
+				config_regex => "[A-Za-z -]"
 			}
  		]
 	};
@@ -105,17 +105,18 @@ sub assign {
 	my $self = shift;
 	my $config_name = $self->param('config_data.name');
 	my $ds_id = $self->param('id');
-	print "\n\nConfig name = $config_name, ds_id = $ds_id\n\n";
-	if (defined($config_name)) { #POST
+
+	if (defined($config_name)) { #POST from select profile
 		if ($config_name =~ $config1->{name}) {
+			$config1->{vars}[0]->{value} = "";
+			$config1->{vars}[1]->{value} = "";
 			$self->stash(selected_config => $config1);
 		} else {
+			$config2->{vars}[0]->{value} = "";
 			$self->stash(selected_config => $config2);
 		}
 		$self->stash (
 			configs => [],
-			fbox_layout => 1,
-			xml_id => $ds_id
 		);
 
 	} else { #GET
@@ -126,20 +127,41 @@ sub assign {
 		&stash_role($self);
 		$self->stash(
 				configs => [$config1, $config2],
-				selected_config => {},
-				fbox_layout => 1,
-				xml_id => $xml_id,
+				selected_config => {}
 				);
 		}
+	$self->stash(
+			fbox_layout => 1,
+			xml_id => $ds_id,
+			message => ""
+			);
 	$self->render( template => 'lua_config/assign' );
 
 
 }
 
-sub config_ds {
+sub configds {
 	my $self = shift;
-	my $xml_id = shift;
-	# print success message
+	my $xml_id = $self->param('id');
+	my $config_name = $self->param('config_data.name');
+
+	if ($config_name =~ $config1->{name}) {
+		$config1->{vars}[0]->{value} = $self->param('var.value1');
+		$config1->{vars}[1]->{value} = $self->param('var.value2');
+		$self->stash(selected_config => $config1);
+
+	} else {
+		$config2->{vars}[0]->{value} = $self->param('var.value1');
+		$self->stash(selected_config => $config2);
+	}
+	$self->stash (
+		configs => [],
+		fbox_layout => 1,
+		xml_id => $xml_id,
+		message => "Successfully added config!"
+	);
+	# return $self->redirect_to( "/ds/$xml_id/luaconfig" );
+	$self->render( template => 'lua_config/assign' );
 }
 
 1;

@@ -159,6 +159,7 @@ sub ui_routes {
 	$r->post('/luaconfig/:id/update')->over( authenticated => 1 )->to( 'LuaConfig#update', namespace => $namespace );
 	$r->get('/ds/:id/luaconfig')->to( 'LuaConfig#assign', namespace => $namespace );
 	$r->post('/ds/:id/luaconfig')->over( authenticated => 1 )->to( 'LuaConfig#assign', namespace => $namespace );
+	$r->post('/luaconfig/:id/configds')->over( authenticated => 1 )->to( 'LuaConfig#configds', namespace => $namespace );
 
 	# -- Keys - SSL Key management
 	$r->get('/ds/:id/urlsigkeys/add')->to( 'UrlSigKeys#add', namespace => $namespace );
