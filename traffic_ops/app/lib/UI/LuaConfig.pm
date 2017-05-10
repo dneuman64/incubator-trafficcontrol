@@ -64,7 +64,6 @@ sub edit {
 	my $id   = $self->param('id');
 	my $name = $self->param('config_data.name');
 	if (defined($name)) { #post
-		print($self->req->body_params . "\n\n");
 		if ($id == 1) {
 			$config1->{name} = $self->param('config_data.name');
 			$config1->{url} = $self->param('config_data.url');
